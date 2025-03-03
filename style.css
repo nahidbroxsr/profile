@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(45deg, #ff0066, #6600ff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    color: white;
+    z-index: 2;
+    position: relative;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.button {
+    background: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 25px;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #45a049;
+}
+
+/* Bubbles Animation */
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.bubbles div {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: bubble 10s linear infinite;
+}
+
+.bubbles div:nth-child(1) { left: 10%; animation-duration: 8s; width: 20px; height: 20px; }
+.bubbles div:nth-child(2) { left: 25%; animation-duration: 12s; width: 25px; height: 25px; }
+.bubbles div:nth-child(3) { left: 40%; animation-duration: 15s; }
+.bubbles div:nth-child(4) { left: 55%; animation-duration: 9s; width: 30px; height: 30px; }
+.bubbles div:nth-child(5) { left: 70%; animation-duration: 10s; }
+.bubbles div:nth-child(6) { left: 85%; animation-duration: 14s; width: 35px; height: 35px; }
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+  }
